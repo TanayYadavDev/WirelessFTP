@@ -2,15 +2,78 @@
 <html>
 <head>
     <title>WirelessFTP</title>
+
     <style>
-        
+        body{
+            background:linear-gradient(135deg,#0f172a,#1e293b,#111827);
+            color:white;
+            font-family:Arial;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            margin:0;
+        }
+
+        .card{
+            background:rgba(255,255,255,0.1);
+            backdrop-filter:blur(15px);
+            -webkit-backdrop-filter:blur(15px);
+
+            border:1px solid rgba(255,255,255,0.2);
+            border-radius:25px;
+
+            padding:40px;
+            width:350px;
+
+            box-shadow:0 8px 32px rgba(0,0,0,0.3);
+            text-align:center;
+
+            transition:0.3s;
+        }
+
+        .card:hover{
+            transform:translateY(-5px);
+            box-shadow:0 12px 40px rgba(59,130,246,0.3);
+        }
+
+        input{
+            margin-top:20px;
+        }
+
+        button{
+            margin-top:15px;
+            padding:10px 20px;
+
+            border:none;
+            border-radius:10px;
+
+            background:#3b82f6;
+            color:white;
+
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#2563eb;
+        }
     </style>
 </head>
+
 <body>
-    <h1>WirelessFTP 😭🔥</h1>
-    <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <button type="submit">Upload</button>
-    </form>
+
+    <div class="card">
+        <h1>WirelessFTP</h1>
+        <p>Fast local file sharing.</p>
+
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <br>
+            <button type="submit">
+                Upload
+            </button>
+        </form>
+    </div>
+
 </body>
 </html>
