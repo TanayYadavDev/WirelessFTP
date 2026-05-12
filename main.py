@@ -8,10 +8,11 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    user_ip = request.remote_addr
     if request.method == 'POST':
         file = request.files['file']
         if file.filename != '':
             file.save(os.path.join(UPLOAD_FOLDER, file.filename))
-    return render_template('index.html')
+    return render_template('index.html', ip=user_ip)
 
 app.run(host='0.0.0.0', port=5000)
