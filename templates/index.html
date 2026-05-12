@@ -39,22 +39,6 @@
         input{
             margin-top:20px;
         }
-
-        button{
-            margin-top:15px;
-            padding:10px 20px;
-
-            border:none;
-            border-radius:10px;
-
-            background:#3b82f6;
-            color:white;
-
-            cursor:pointer;
-        }
-        button:hover{
-            background:#2563eb;
-        }
         
         .ipbox{
             margin-top:20px;
@@ -106,6 +90,30 @@
             background:rgba(255,255,255,0.08);
             border:1px solid rgba(255,255,255,0.1);
         }
+
+        .selected-file{
+            display:none;
+            margin-top:20px;
+            padding:15px;
+            border-radius:15px;
+            background:rgba(255,255,255,0.08);
+            border:1px solid rgba(255,255,255,0.1);
+            color:#cbd5e1;
+        }
+        
+        #uploadBtn{
+            display:none;
+            margin-top:20px;
+            padding:10px 20px;
+            border:none;
+            border-radius:10px;
+            background:#3b82f6;
+            color:white;
+            cursor:pointer;
+        }
+        #uploadBtn:hover{
+            background:#2563eb;
+        }
     </style>
 </head>
 
@@ -127,7 +135,10 @@
             </label>
 
             <br>
-            <button type="submit">
+            <div class="selected-file" id="selectedFile">
+                No file selected
+            </div>
+            <button id="uploadBtn" type="button">
                 Upload
             </button>
         </form>
@@ -142,7 +153,20 @@
     </div>
 
     <script>
+        let currentFile=null;
+
         let dropArea=document.getElementById("dropArea");
+        let fileInput=document.getElementById("fileInput");
+        let selectedFile=document.getElementById("selectedFile");
+        let uploadBtn=document.getElementById("uploadBtn");
+
+        dropArea.addEventListener("click",function(){
+            fileInput.click();
+        });
+        fileInput.addEventListener("change",function(){
+            let file=fileInput.files[0];
+            uploadFile(file);
+        });
         dropArea.addEventListener("dragover",function(e){
             e.preventDefault();
             dropArea.classList.add("active");
@@ -154,6 +178,30 @@
             e.preventDefault();
             dropArea.classList.remove("active");
             let file=e.dataTransfer.files[0];
+            uploadFile(file);
+        });
+
+        uploadBtn.addEventListener("click",function(){
+            let formData=new FormData();
+            formData.append("file",currentFile);
+            selectedFile.innerHTML=
+                "Uploading: "+currentFile.name;
+            fetch("/",{
+                method:"POST",
+                body:formData
+            })
+            .then(response=>{
+                selectedFile.innerHTML=
+                    "Uploaded: "+currentFile.name+" 😭🔥";
+                location.reload();
+            });
+        });
+
+        function uploadFile(file){
+            dropArea.style.display="none";
+            selectedFile.style.display="block";
+            selectedFile.innerHTML=
+                "Uploading: "+file.name;
             let formData=new FormData();
             formData.append("file",file);
             fetch("/",{
@@ -161,9 +209,20 @@
                 body:formData
             })
             .then(response=>{
+                selectedFile.innerHTML=
+                    "Uploaded: "+file.name+" 😭🔥";
                 location.reload();
             });
-        });
+        }
+
+        function uploadFile(file){
+            currentFile=file;
+            dropArea.style.display="none";
+            selectedFile.style.display="block";
+            uploadBtn.style.display="inline-block";
+            selectedFile.innerHTML=
+                "Selected: "+file.name;
+        }
     </script>
 </body>
 </html>
