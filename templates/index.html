@@ -80,6 +80,12 @@
             transition:0.3s;
         }
 
+        .upload-box.active{
+            background:rgba(96,165,250,0.12);
+            border-color:#60a5fa;
+            box-shadow:0 0 25px rgba(96,165,250,0.25);
+        }
+
         .upload-box:hover{
             background:rgba(255,255,255,0.08);
             border-color:#60a5fa;
@@ -105,9 +111,9 @@
         <div class="ipbox">
             Connected via {{ ip }}
         </div>
-        <form method="POST" enctype="multipart/form-data">
-            <label class="upload-box">
-            <input type="file" name="file" hidden>
+        <form id="uploadForm" method="POST" enctype="multipart/form-data">
+            <label class="upload-box" id="dropArea">
+            <input type="file" name="file" id="fileInput" hidden>
             <div class="upload-content">
                 <h3>Drop files here</h3>
                 <p>or click to browse</p>
@@ -121,5 +127,29 @@
         </form>
     </div>
 
+    <script>
+        let dropArea=document.getElementById("dropArea");
+        dropArea.addEventListener("dragover",function(e){
+            e.preventDefault();
+            dropArea.classList.add("active");
+        });
+        dropArea.addEventListener("dragleave",function(){
+            dropArea.classList.remove("active");
+        });
+        dropArea.addEventListener("drop",function(e){
+            e.preventDefault();
+            dropArea.classList.remove("active");
+            let file=e.dataTransfer.files[0];
+            let formData=new FormData();
+            formData.append("file",file);
+            fetch("/",{
+                method:"POST",
+                body:formData
+            })
+            .then(response=>{
+                location.reload();
+            });
+        });
+    </script>
 </body>
 </html>
