@@ -57,6 +57,43 @@
         button:hover{
             background:#2563eb;
         }
+        
+        .ipbox{
+            margin-top:20px;
+            padding:10px;
+            border-radius:12px;
+            background:rgba(255,255,255,0.08);
+            border:1px solid rgba(255,255,255,0.1);
+            font-size:14px;
+            color:#cbd5e1;
+        }
+
+        .upload-box{
+            display:block;
+            margin-top:25px;
+            padding:30px;
+
+            border:2px dashed rgba(255,255,255,0.3);
+            border-radius:20px;
+
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .upload-box:hover{
+            background:rgba(255,255,255,0.08);
+            border-color:#60a5fa;
+        }
+
+        .upload-content h3{
+            margin:0;
+            font-size:20px;
+        }
+
+        .upload-content p{
+            color:#cbd5e1;
+            font-size:14px;
+        }
     </style>
 </head>
 
@@ -65,9 +102,18 @@
     <div class="card">
         <h1>WirelessFTP</h1>
         <p>Fast local file sharing.</p>
-
+        <div class="ipbox">
+            Connected via {{ ip }}
+        </div>
         <form method="POST" enctype="multipart/form-data">
-            <input type="file" name="file">
+            <label class="upload-box">
+            <input type="file" name="file" hidden>
+            <div class="upload-content">
+                <h3>Drop files here</h3>
+                <p>or click to browse</p>
+            </div>
+            </label>
+
             <br>
             <button type="submit">
                 Upload
