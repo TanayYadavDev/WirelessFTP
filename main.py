@@ -6,6 +6,8 @@ app = Flask(__name__)
 UPLOAD_FOLDER=os.path.join(app.root_path,"uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+files=os.listdir(UPLOAD_FOLDER)
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     user_ip = request.remote_addr
@@ -13,6 +15,7 @@ def home():
         file = request.files['file']
         if file.filename != '':
             file.save(os.path.join(UPLOAD_FOLDER, file.filename))
-    return render_template('index.html', ip=user_ip)
+    files=os.listdir(UPLOAD_FOLDER)
+    return render_template('index.html', ip=user_ip, files=files)
 
 app.run(host='0.0.0.0', port=5000)
