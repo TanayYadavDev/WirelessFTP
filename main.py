@@ -19,9 +19,7 @@ def download_file(filename):
     )
 
 @app.route('/', methods=['GET', 'POST'])
-def home():
-    user_ip = request.remote_addr
-    
+def home():    
     if request.method == 'POST':
         file = request.files['file']
         if file.filename != '':
@@ -40,7 +38,7 @@ def home():
             "qrcode.png"
         )
     )
-    return render_template('index.html', ip=user_ip, files=files)
+    return render_template('index.html', files=files)
 
     
 app.run(host='0.0.0.0', port=5000)
