@@ -143,6 +143,16 @@
         .files h3{
             margin-bottom:15px;
         }
+        .file-left{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            min-width:0;
+        }
+        .file-icon{
+            font-size:20px;
+            flex-shrink:0;
+        }
         .file-item{
             display:flex;
             justify-content:space-between;
@@ -238,8 +248,36 @@
             <div class="files-container" id="filesContainer">
                 {% for file in files %}
                     <div class="file-item">
-                        <div class="file-name">
-                            {{ file }}
+                        <div class="file-left">
+                            <div class="file-icon">
+                                {% if file.endswith('.pdf') %}
+                                    📄
+                                {% elif file.endswith('.jpg') 
+                                    or file.endswith('.png')
+                                    or file.endswith('.jpeg')
+                                %}
+                                    🖼
+                                {% elif file.endswith('.mp4')
+                                    or file.endswith('.mkv')
+                                %}
+                                    🎬
+                                {% elif file.endswith('.mp3')
+                                    or file.endswith('.wav')
+                                %}
+                                    🎵
+                                {% elif file.endswith('.zip')
+                                    or file.endswith('.rar')
+                                %}
+                                    📦
+                                {% elif file.endswith('.exe') %}
+                                    ⚙
+                                {% else %}
+                                    📁
+                                {% endif %}
+                            </div>
+                            <div class="file-name">
+                                {{ file }}
+                            </div>
                         </div>
                         <a
                             href="/download/{{ file }}"
