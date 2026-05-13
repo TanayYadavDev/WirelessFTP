@@ -50,6 +50,16 @@
             color:#cbd5e1;
         }
 
+        .qrbox{
+            margin-top:20px;
+        }
+        .qrbox img{
+            width:150px;
+            border-radius:15px;
+            background:white;
+            padding:10px;
+        }
+
         .upload-box{
             display:block;
             margin-top:25px;
@@ -135,6 +145,9 @@
         <p>Fast local file sharing.</p>
         <div class="ipbox">
             Connected via {{ ip }}
+        </div>
+        <div class="qrbox">
+            <img src="/static/qrcode.png">
         </div>
         <form id="uploadForm" method="POST" enctype="multipart/form-data">
             <label class="upload-box" id="dropArea">
