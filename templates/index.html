@@ -89,6 +89,17 @@
             border-radius:12px;
             background:rgba(255,255,255,0.08);
             border:1px solid rgba(255,255,255,0.1);
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .file-item a{
+            text-decoration:none;
+            color:#60a5fa;
+            font-size:14px;
+        }
+        .file-item a:hover{
+            color:#93c5fd;
         }
 
         .selected-file{
@@ -146,7 +157,10 @@
             <h3>Uploaded Files</h3>
             {% for file in files %}
                 <div class="file-item">
-                    {{ file }}
+                    <span>{{ file }}</span>
+                    <a href="/download/{{ file }}" download>
+                        Download
+                    </a>
                 </div>
             {% endfor %}
         </div>
