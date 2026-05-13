@@ -15,25 +15,51 @@
             margin:0;
         }
 
+        #mainContent{
+            max-height:1000px;
+            overflow:hidden;
+            opacity:1;
+            transform:translateY(0);
+            transition:
+                max-height 0.5s ease,
+                opacity 0.35s ease,
+                transform 0.35s ease;
+        }
+        #mainContent.hide{
+            max-height:0;
+            opacity:0;
+            transform:translateY(-20px);
+            pointer-events:none;
+        }
+
         .card{
             background:rgba(255,255,255,0.1);
             backdrop-filter:blur(15px);
             -webkit-backdrop-filter:blur(15px);
-
             border:1px solid rgba(255,255,255,0.2);
             border-radius:25px;
-
             padding:40px;
             width:350px;
-
             box-shadow:0 8px 32px rgba(0,0,0,0.3);
+            box-sizing:border-box;
             text-align:center;
-
             transition:0.3s;
+            max-height:85vh;
+            overflow-y:scroll;
+            -ms-overflow-style:none;
+            scrollbar-width:none;
         }
         .card:hover{
             transform:translateY(-5px);
             box-shadow:0 12px 40px rgba(59,130,246,0.3);
+        }
+        .card::-webkit-scrollbar{
+            width:0;
+            height:0;
+        }
+        .card::-webkit-scrollbar-thumb{
+            background:rgba(255,255,255,0.2);
+            border-radius:10px;
         }
 
         input{
@@ -94,7 +120,20 @@
         }
 
         .files-container{
-            display:none;
+            max-height:0;
+            overflow:hidden;
+            opacity:0;
+            transform:translateY(-10px);
+            transition:
+                max-height 0.5s ease,
+                opacity 0.3s ease,
+                transform 0.3s ease;
+            margin-top:0;
+        }
+        .files-container.show{
+            max-height:500px;
+            opacity:1;
+            transform:translateY(0);
             margin-top:15px;
         }
         .files{
@@ -170,26 +209,28 @@
 
     <div class="card">
         <h1>WirelessFTP</h1>
-        <div class="qrbox">
-            <img src="/static/qrcode.png">
-        </div>
-        <form id="uploadForm" method="POST" enctype="multipart/form-data">
-            <label class="upload-box" id="dropArea">
-            <input type="file" name="file" id="fileInput" hidden>
-            <div class="upload-content">
-                <h3>Drop files here</h3>
-                <p>or click to browse</p>
+        <div id="mainContent">
+            <div class="qrbox">
+                <img src="/static/qrcode.png">
             </div>
-            </label>
+            <form id="uploadForm" method="POST" enctype="multipart/form-data">
+                <label class="upload-box" id="dropArea">
+                <input type="file" name="file" id="fileInput" hidden>
+                <div class="upload-content">
+                    <h3>Drop files here</h3>
+                    <p>or click to browse</p>
+                </div>
+                </label>
 
-            <br>
-            <div class="selected-file" id="selectedFile">
-                No file selected
-            </div>
-            <button id="uploadBtn" type="button">
-                Upload
-            </button>
-        </form>
+                <br>
+                <div class="selected-file" id="selectedFile">
+                    No file selected
+                </div>
+                <button id="uploadBtn" type="button">
+                    Upload
+                </button>
+            </form>
+        </div>
         <div class="files">
             <button class="toggle-btn" id="toggleBtn">
                 Show Uploaded Files
@@ -215,6 +256,8 @@
 
     <script>
         let currentFile=null;
+
+        let mainContent=document.getElementById("mainContent");
 
         let dropArea=document.getElementById("dropArea");
         let fileInput=document.getElementById("fileInput");
@@ -262,18 +305,17 @@
         });
 
         toggleBtn.addEventListener("click",function(){
-            if(filesContainer.style.display=="block"){
-                filesContainer.style.display="none";
-                toggleBtn.innerHTML=
-                    "Show Uploaded Files";
+            filesContainer.classList.toggle("show");
+            if(filesContainer.classList.contains("show")){
+                toggleBtn.innerHTML="Hide Uploaded Files";
+                mainContent.classList.add("hide");
             }
             else{
-                filesContainer.style.display="block";
-                toggleBtn.innerHTML=
-                    "Hide Uploaded Files";
+                toggleBtn.innerHTML="Show Uploaded Files";
+                mainContent.classList.remove("hide");
             }
         });
-        
+
         function uploadFile(file){
             dropArea.style.display="none";
             selectedFile.style.display="block";
